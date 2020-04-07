@@ -16,6 +16,11 @@ def profileView(request):
 
 def dashboardView(request):
     return render(request, 'app/index.html')
+    
+
+def uploadView(request):
+    pass
+
 
 def loginRegisterView(request):
     return HttpResponse("Logged in")

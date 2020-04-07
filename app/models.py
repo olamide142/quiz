@@ -49,11 +49,20 @@ class Patient(models.Model):
             ('O', 'O'),
             ('O+', 'O+')
     )
+
+    STATUS = (
+            ('Great', 'Great'),
+            ('Good', 'Good'),
+            ('Not so good', 'Not so good'),
+            ('Recovering', 'Recovering'),
+            ('Bad', 'Bad')
+    )
     patient_id = models.CharField(default=randomId(), primary_key=True,  max_length=10)
     owner = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     image = models.CharField(max_length=50, null=True, blank=True)
     surname = models.CharField(max_length=50, null=True)
     other_names = models.CharField(max_length=50, null=True)
+    status = models.CharField(max_length=50, choices=STATUS, null=True)
     gender = models.CharField(max_length=6, null=True, blank=True)
     phone_number = models.BigIntegerField(null=True, default=0)
     weight = models.IntegerField(null=True, default=0)
