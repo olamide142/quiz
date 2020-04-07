@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables | eHealth Assignment</title>
+    <!-- <script src="{% static 'app/js/jquery.min.js' %}"></script> -->
+    <script src="{% static 'app/js/dashboard.js' %}"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link href="{% static 'app/css/w3.css'%}" rel="stylesheet" id="bootstrap-css">
+</head>
+<body>
+   
+    
+    {% include 'app/nav.html' %}
+        <div class="w3-panel container w3-round" style="background-color: #7AC142;">
+            <a href="{% url 'dashboard' %}" class="w3-button w3-left"> Back</a>
+        </div>
+        
+
+        <div class="container">
+          <p class="w3-text-teal">Patient Record</p>
+          <!-- sEARCH -->
+                <div class="input-group mb-3">
+                  <form action="{% url 'table' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+                      <div class="dropdown-menu">
+                        <ul class="w3-ul">
+                          <li><button type="submit" class="btn btn-otline-secondary">ID</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary">Patient Name</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary">Description</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary">Status</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary">Date</button></li>
+                        </ul>
+                      </div>
+                      <input type="text" class="form-control" aria-label="" required>
+                    </div>
+                  </form>
+                </div>
+                
+
+          <table class="w3-table-all w3-small w3-card">
+            <tr class="w3-grey w3-text-black">
+              <td class="w3-center">ID</td>
+              <td class="w3-center">Patient Name</td>
+              <td class="w3-center">Description</td>
+              <td class="w3-center">Status</td>
+              <td class="w3-center">Date</td>
+              <td class="w3-center"></td>
+            </tr>
+
+            <tbody>
+              <tr>
+                <td>1A3DS34</td>
+                <td>Papa Ajasco</td>
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
+                <td>Recovering</td>
+                <td>19-12-2018</td>
+                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
+              </tr>
+              <tr>
+                <td>1A3DS34</td>
+                <td>Papa Ajasco</td>
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
+                <td>Recovering</td>
+                <td>19-12-2018</td>
+                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
+              </tr>
+              <tr>
+                <td>1A3DS34</td>
+                <td>Papa Ajasco</td>
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
+                <td>Recovering</td>
+                <td>19-12-2018</td>
+                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
+              </tr>
+              <tr>
+                <td>1A3DS34</td>
+                <td>Papa Ajasco</td>
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
+                <td>Recovering</td>
+                <td>19-12-2018</td>
+                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
+              </tr>
+              <tr>
+                <td>1A3DS34</td>
+                <td>Papa Ajasco</td>
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
+                <td>Recovering</td>
+                <td>19-12-2018</td>
+                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+  
+  </body>
+</html>

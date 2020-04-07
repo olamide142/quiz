@@ -22,7 +22,7 @@ class Doctor(models.Model):
     phone_number = models.BigIntegerField(default=0, null=True)
     years_of_experience = models.IntegerField(default=0, null=True)
     home_address = models.CharField(max_length=300, null=True, blank=True)
-    dob = models.CharField(max_length=10, null=True, blank=True)
+    dob = models.DateField(null=True, blank=True)
     marital_status = models.CharField(max_length=15, null=True, blank=True)
     next_of_kin =  models.CharField(max_length=30, null=True, blank=True)
     next_of_kin_addr =  models.CharField(max_length=30, null=True, blank=True)
@@ -69,7 +69,7 @@ class Patient(models.Model):
     blood_group =  models.CharField(max_length=3, choices=BLOOD_GROUP, null=True, blank=True)
     genotype =  models.CharField(max_length=5, null=True, blank=True)
     home_address = models.CharField(max_length=300, null=True, blank=True)
-    dob = models.CharField(max_length=10, null=True, blank=True)
+    dob = models.DateField(null=True, blank=True)
     marital_status = models.CharField(max_length=15, null=True, blank=True)
     next_of_kin =  models.CharField(max_length=30, null=True, blank=True)
     next_of_kin_addr =  models.CharField(max_length=30, null=True, blank=True)
@@ -83,12 +83,13 @@ class Records(models.Model):
     STATUS = (
             ('Resolved', 'Resolved'),
             ('Recovering', 'Recovering'),
-            ('New', 'New'),
+            ('Examination', 'Examination'),
             ('Critical', 'Critical')
     )
     record_id = models.CharField(default=randomId(), primary_key=True,  max_length=10)
     owner = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    notes = models.TextField(null=True, blank=True)
+    symptoms = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     doctor = models.OneToOneField(Doctor, null=True, on_delete=models.SET_NULL)
     doctors_report =  models.TextField(null=True, blank=True)
     status = models.CharField(null=True, blank=True, choices=STATUS, max_length=15)

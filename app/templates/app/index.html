@@ -26,19 +26,60 @@
         <!-- Left Column -->
         <div class="w3-twothird">
         
-            <div class="w3-container w3-card w3-padding w3-white w3-margin-bottom">
+            <div class="w3-container w3-card w3-padding w3-white">
                 {% include 'app/tips.html' %}
-                <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Recent Records</h2>
-                <div class="container w3-padding w3-round" style="background-color: #93E442;">
-                    <p class="w3-tiny">Record No: 12321</p>
-                    p
-
-                    
-                    <span class="badge badge-secondary w3-small" style="color: #028F9C">maleria</span>
-                    <span class="badge badge-secondary w3-small" style="color: #028F9C">maleria</span>
-                    <span class="badge badge-secondary w3-small" style="color: #028F9C">maleria</span>
-                    <span class="badge badge-secondary w3-small" style="color: #028F9C">maleria</span>
-                </div>
+                
+                <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw  w3-xxlarge w3-text-teal"></i>Recent Records</h2>
+                
+                <a href="#" style="text-decoration: none;">
+                    <div class="container w3-padding w3-round w3-border">
+                        <p class="w3-tiny w3-text-teal">Record No: 12321</p>
+                        <p class="w3-tiny w3-text-teal">19-12-2019 | 12:30 AM</p>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio laudantium suscipit saepe laboriosam similique nisi non, quis alias praesentium, distinctio rem, impedit necessitatibus enim fugiat numquam asperiores recusandae totam illo.</p>
+                        
+                        
+                        <span class="badge w3-teal w3-small w3-text-white">maleria</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Fever</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Cough</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Corna</span>
+                        <p class="w3-tiny w3-right">Status: Good to go</p>
+                    </div>
+                </a>
+                <br>
+                
+                <a href="#" style="text-decoration: none;">
+                    <div class="container w3-padding w3-round w3-border">
+                        <p class="w3-tiny w3-text-teal">Record No: 12321</p>
+                        <p class="w3-tiny w3-text-teal">19-12-2019 | 12:30 AM</p>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio laudantium suscipit saepe laboriosam similique nisi non, quis alias praesentium, distinctio rem, impedit necessitatibus enim fugiat numquam asperiores recusandae totam illo.</p>
+                        
+                        
+                        <span class="badge w3-teal w3-small w3-text-white">maleria</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Fever</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Cough</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Corna</span>
+                        <p class="w3-tiny w3-right">Status: Good to go</p>
+                    </div>
+                </a>
+                <br>
+                
+                <a href="#" style="text-decoration: none;">
+                    <div class="container w3-padding w3-round w3-border">
+                        <p class="w3-tiny w3-text-teal">Record No: 12321</p>
+                        <p class="w3-tiny w3-text-teal">19-12-2019 | 12:30 AM</p>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio laudantium suscipit saepe laboriosam similique nisi non, quis alias praesentium, distinctio rem, impedit necessitatibus enim fugiat numquam asperiores recusandae totam illo.</p>
+                        
+                        
+                        <span class="badge w3-teal w3-small w3-text-white">maleria</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Fever</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Cough</span>
+                        <span class="badge w3-teal w3-small w3-text-white">Corna</span>
+                        <p class="w3-tiny w3-right">Status: Good to go</p>
+                    </div>
+                </a>
+                <br>
+                
+                <button class=" w3-center w3-button w3-round w3-teal">More</button>
             </div>
     
     
@@ -57,7 +98,7 @@
                         <div class="input-group mb-3">
                             <div class="custom-file">
                             <input type="file" class="custom-file-input" name="file" id="file" onchange="fileData()">
-                            <!-- <label class="custom-file-label" for="inputGroupFile02" aria-describedby="upload-file" id="file_label">Choose file</label> -->
+                            <label class="custom-file-label" for="inputGroupFile02" aria-describedby="upload-file" id="file_label">Choose file</label>
                             </div>
                             <div class="input-group-append">
                             <button type="buttton" class="w3-button w3-right w3-round w3-border" id="upload-file" style="cursor: pointer;" >Upload</button>
@@ -72,7 +113,7 @@
                     <p class="w3-padding">Number: </p>
                     <hr>
                     
-                    <button class="w3-button w3-round w3-right w3-text-white" type="submit" style="background-color: #028F9C">Edit Profile</button>
+                    <a href="{% url 'profile' %}" class="w3-button w3-round w3-right w3-text-white" type="submit" style="background-color: #028F9C">Edit Profile</a>
                     <br>
                 </div>
                 </div><br>
@@ -85,6 +126,9 @@
         
         <!-- End Page Container -->
     </div>
+
+    <!-- Footer  -->
+    {% include 'app/footer.html' %}
     
 
 </body>

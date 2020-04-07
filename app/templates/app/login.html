@@ -27,69 +27,39 @@
   </head>
 
   <body class="text-center">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger w3-top" role="alert">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
     <!-- Patient -->
-    <!-- Signup Form Patient
-    <form class="form-signin" method="POST" action="{% url 'logReg' %}" id="singup_patient" style="display: none;">
-        <p>Welcome to the eHealth Portal</p>
-        <hr>
-        <img class="mb-4" src="{% static 'app/images/logo.png' %}" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal"><u type="button" style="cursor: pointer;" onclick="patientSignUpToSignIn()">Sign In</u> / Sign Up</h1>
-
-        <label for="inputEmail" class="w3-margin sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="w3-margin form-control" placeholder="Email address" required autofocus>
-
-        <label for="inputSurname" class="w3-margin sr-only">Surname</label>
-        <input type="text" id="inputSurname" class="w3-margin form-control" placeholder="Surname" required autofocus>
-        
-        <label for="inputOtherNames" class="w3-margin sr-only">OtherNames</label>
-        <input type="text" id="inputOtherNames" class="w3-margin form-control" placeholder="Other Names" required autofocus>
-        
-        <label for="inputDateOfBirth" class="w3-margin sr-only">Date of Birth</label>
-        <input type="date" id="inputDateOfBirth" class="w3-margin form-control" placeholder="Other Names" required autofocus>
-
-        <input class="w3-radio" type="radio" name="gender" value="male">
-        <label class="w3-validate">Male</label>
-
-        <input class="w3-radio" type="radio" name="gender" value="female">
-        <label class="w3-validate">Female</label>
-
-        <label for="password1" class="w3-margin sr-only">Password</label>
-        <input type="password" id="password1" class="w3-margin form-control" placeholder="Password" required autofocus>
-
-        <label for="password2" class="w3-margin sr-only">Confirm Password</label>
-        <input type="password" id="password2" class="w3-margin form-control" placeholder="Confirm Password" required autofocus>
-        
-        <div class="checkbox mb-3">
-            <p class="w3-tiny"><a href="#" onclick="patientSignUpToDoctorSignUp()">sign-up as a Medical Practitioner</a></p>
-        </div>
-        
-            <button class="w3-button w3-round w3-text-white" type="submit" style="background: #028F9C">Sign in</button>
-            <p class="mt-5 mb-3 text-muted w3-tiny w3-padding">eHealth &copy; 2020</p>
-    </form> -->
-    
     <!-- Signin Form  Patient-->
-    <form class="form-signin" method="POST" action="{% url 'logReg' %}" id="singin_patient">
+    <form class="form-signin"action="/login/" id="singin_patient" method="POST" >
         {% csrf_token %}
-        <p>Welcome to the eHealth Portal</p>
+        <p style="color: #028F9C">Welcome to the eHealth Portal</p>
 
         <hr>
         <img class="mb-4" src="{% static 'app/images/logo.png' %}" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Sign In / <u type="button" style="cursor: pointer;" onclick="patientSignInToSignup()">Sign Up</u></h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <h1 class="h3 mb-3 font-weight-normal w3-small">Sign In to eHealth Portal</u></h1>
+        <input type="hidden" name="category" value="Patient">
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
         <div class="checkbox mb-3">
             <p class="w3-tiny"><a href="#" onclick="patientSignInToDoctorSignIn()">sign-in as a Medical Practitioner</a></p>
         </div>
         
             <button class="w3-button w3-round w3-text-white" type="submit" style="background-color: #028F9C">Sign in</button>
             <p class="mt-5 mb-3 text-muted w3-tiny w3-padding">eHealth &copy; 2020</p>
+            
     </form>
 
     <!-- Doctor -->
     <!-- Signup Form Doctor -->
-    <!-- <form class="form-signin" method="POST" action="{% url 'logReg' %}" id="singup_doctor" style="display: none;">
+    <!-- <form class="form-signin" method="POST" action="" id="singup_doctor" style="display: none;">
         <p>Welcome to the eHealth Portal</p>
         <hr>
         <img class="mb-4" src="{% static 'app/images/logo.png' %}" alt="" width="72" height="72">
@@ -131,16 +101,17 @@
     </form>
      -->
     <!-- Signin Form  doctor-->
-    <form class="form-signin" method="POST" action="{% url 'logReg' %}" id="singin_doctor" style="display: none;">
+    <form class="form-signin" method="POST" action="{% url 'login' %}" id="singin_doctor" style="display: none;">
         {% csrf_token %}
-        <p>Welcome to the eHealth Portal <span class="w3-tiny w3-text-teal">Dr.</span></p>
+        <p style="color: #028F9C">Welcome to the eHealth Portal <span class="w3-tiny w3-text-black">Dr.</span></p>
         <hr>
         <img class="mb-4" src="{% static 'app/images/logo.png' %}" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Sign In / <u type="button" style="cursor: pointer;" onclick="doctorSignInToSignUp()">Sign Up</u></h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <h1 class="h3 mb-3 font-weight-normal w3-small">Sign In to eHealth Portal</u></h1>
+        <input type="hidden" name="category" value="Doctor">
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Password" required>
         <div class="checkbox mb-3">
             <p class="w3-tiny"><a href="#" onclick="doctorSignInToPatientSignIn()">sign-in as a Patient</a></p>
         </div>
