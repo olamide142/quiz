@@ -4,34 +4,44 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-
+from . models import * 
 
 # Create your views here.
-class Category(object):
-    category = ''
+
 
 
 def loginView(request):
-    print(f"REQUEST TYPE: {request.method}")
     if request.method == 'POST':
 
-        # Store category of user in the category class
-        category = request.POST['category']
-        if category == 'Patient':
-            Category.category = 'Patient'
-        elif category == 'Doctor':
-            Category.category = 'Doctor'
-
+        # Store category of user in session
+        request.session['category'] = request.POST['category']
+        
         # Get email and password
         username = request.POST['email']
         password = request.POST['password']
 
+
         # Authenticate user and log them in 
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            messages.add_message(request, messages.INFO, 'Welcome Back 😎')
-            return redirect('dashboard')
+            # check if user is a really who they say they are 
+            # wrapping in a try catch to handle error incase user 
+            # is not who they say they are
+            try:
+                if request.session['category'] == 'Patient':
+                    if Patient.objects.get(owner=user) is not None:
+                        login(request, user)
+                elif request.session['category'] == 'Doctor':
+                    # return HttpResponse(Doctor.objects.get(owner=user))
+                    if Doctor.objects.get(owner=user) is not None:
+                        login(request, user)
+                
+                messages.add_message(request, messages.INFO, 'Welcome Back 😎')
+                return redirect('dashboard')
+            except:
+                messages.add_message(request, messages.WARNING, 'You are not a '+str(request.session['category']))
+                return render(request, 'app/login.html')
+
         else:
         # if user does not exist return back
         #  to login page and display error message 
@@ -43,21 +53,98 @@ def loginView(request):
     
 
 def logoutView(request):
+    # Log user out
     logout(request)
     return redirect('home')
 
 
+
 @login_required(login_url="login/")
-def homeView(request):
-    return render(request, 'app/index.html')
-
-
 def profileView(request):
-    return render(request, 'app/profile.html')
+
+    # Get logged in user's details
+    owner = request.user
+    category = request.session['category']
+
+    if request.method == 'POST':
+            # General profile info of both Dotors and Patients
+        surname = request.POST.get('Surname')
+        other_names = request.POST.get('otherNames')
+        phone_number = request.POST.get('phoneNumber')
+        gender = request.POST.get('gender')
+        home_address = request.POST.get('address')
+        dob = request.POST.get('dob')
+        marital_status = request.POST.get('maritalStatus')
+        next_of_kin =  request.POST.get('next_of_kin')
+        next_of_kin_addr = request.POST.get('next_of_kin_address')
+        next_of_kin_no = request.POST.get('next_of_kin_no')
+
+            # if User is a Patient 
+        if category == 'Patient':
+            genotype =  request.POST.get('genotype')
+            blood_group = request.POST.get('bloodGroup')
+            weight = request.POST.get('weight')
+
+            # Update Patient's profile
+            loggedUser = Patient.objects.filter(owner=request.user).update(
+                surname=surname, other_names=other_names, phone_number=phone_number,
+                gender=gender, home_address=home_address, dob=dob,
+                marital_status=marital_status, next_of_kin=next_of_kin, next_of_kin_addr=next_of_kin_addr,
+                next_of_kin_no=next_of_kin_no, genotype=genotype, blood_group=blood_group,
+                weight=weight 
+                )
+
+            # if User is a Doctor
+        elif category == 'Doctor':
+            specialization = request.POST.get('specialization')
+            years_of_experience = request.POST.get('years_of_experience')
+
+            # Update Doctor's profile
+            loggedUser = Doctor.objects.filter(owner=request.user).update(
+                surname=surname, other_names=other_names, phone_number=phone_number,
+                gender=gender, home_address=home_address, dob=dob,
+                marital_status=marital_status, next_of_kin=next_of_kin, next_of_kin_addr=next_of_kin_addr,
+                next_of_kin_no=next_of_kin_no, specialization=specialization, years_of_experience=years_of_experience
+                )
+
+        # if user chooses to change his email address
+        email = request.POST.get('email')
+        user = User.objects.get(username=str(owner.username))
+        user.username = email
+        user.save()
+
+        # store a the loggedUser object in a dict 
+        context = {'loggedUser':loggedUser, 'Category':category}
+
+        return redirect('profile')
+
+    else:
+        # When request method is GET 
+        # Get users info
+        context = {}
+        if category == 'Patient':
+            loggedUser = Patient.objects.get(owner=owner)
+            context = {'loggedUser':loggedUser, 'Category':category}
+        elif category == 'Doctor':
+            loggedUser = Doctor.objects.get(owner=owner)
+            context = {'loggedUser':loggedUser, 'Category':category}
+        
+        return render(request, 'app/profile.html', context)
 
 
+@login_required(login_url="login/")
 def dashboardView(request):
-    return render(request, 'app/index.html')
+
+    category = request.session['category']
+
+    # Get users info 
+    if category == 'Patient':
+        loggedUser = Patient.objects.get(owner=request.user)
+    elif category == 'Doctor':
+        loggedUser = Doctor.objects.get(owner=request.user)
+    
+    context = {'loggedUser':loggedUser, 'Category':category}
+    return render(request, 'app/index.html', context)
     
 
 def uploadView(request):
@@ -69,6 +156,10 @@ def recordsView(request):
 
 
 def tableView(request):
+    
+    category = request.session['category']
+    if category != 'Doctor':
+        redirect('dashboard')
     if request == "POST":
         return HttpResponse("Search Table")
     return render(request, 'app/table.html')
