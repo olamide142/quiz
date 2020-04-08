@@ -24,6 +24,7 @@ def loginView(request):
 
         # Authenticate user and log them in 
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             # check if user is a really who they say they are 
             # wrapping in a try catch to handle error incase user 
@@ -81,10 +82,10 @@ def signupView(request):
                 patient = Patient.objects.create(owner=user, surname=surname, other_names=other_names, gender=gender)
                 patient.save()
                 messages.add_message(request, messages.INFO, 'Account created successfully')
-                return render(request, 'app/signup.html')
+                return render(request, 'app/login.html')
         else:
             messages.add_message(request, messages.INFO, 'Password are not the same')
-            return render(request, 'app/signup.html')
+            return render(request, 'app/login.html')
             
 
     return render(request, "app/signup.html")
