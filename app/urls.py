@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.dashboardView, name="dashboard"),
     path('login/', views.loginView, name="login"),
     path('records/', views.recordsView, name="records"),
+    path('make_record/', views.make_recordView, name="make_record"),
     path('report_pdf/', views.report_pdfView, name="report_pdf"),
     path('table/', views.tableView, name="table"),
     path('chart/', views.chartView, name="chart"),

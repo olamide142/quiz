@@ -17,7 +17,7 @@
    {% include 'app/nav.html' %}
     <div class="w3-panel container w3-round alert alert-secondary">
       <a href="{% url 'dashboard' %}" class="w3-button w3-left"> Back</a>
-      <h4 class="w3-center">Edit Profile {{loggedUser.history}}</h4>
+      <h4 class="w3-center">Edit Profile</h4>
       <span class="w3-right">ID: {{loggedUser.id}}</span>
       
     </div>
@@ -146,21 +146,13 @@
                 <span class="text-muted">History</span>
               </h4>
               <ul class="list-group mb-3">
+              {% for h in history %}
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
-                    <h6 class="my-0">Maleria</h6>
+                    <h6 class="my-0">{{h}}</h6>
                   </div>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                  <div>
-                    <h6 class="my-0">Cough</h6>
-                  </div>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                  <div>
-                    <h6 class="my-0">Fever</h6>
-                  </div>
-                </li>
+              {% endfor %}
               </ul>
     
             </div>

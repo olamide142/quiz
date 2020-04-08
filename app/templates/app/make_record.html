@@ -18,8 +18,25 @@
     {% include 'app/nav.html' %}
         <div class="w3-panel container w3-round alert alert-secondary">
             <a href="{% url 'dashboard' %}" class="w3-button w3-left"> Back</a>
-            <h4 class="w3-center">Report</h4>
+            <h4 class="w3-center">Create Record</h4>
         </div>
+    <div class="container">
+        <form method="POST" action="{% url 'make_record' %}" >
+            {% csrf_token %}
+            <p>Search for patient by Patient ID</p>
+            <div class="col-md-5 mb-3">
+                <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">ID</span>
+                        </div>
+                        <input type="text" class="form-control" name="patient_id" placeholder="Patient Name" value="{{patient}}" required>
+                        <input type="hidden" name="act" value="search_patient">
+                </div>
+            </div>
+            <button class="w3-button w3-teal w3-round " type="submit">Search</button>
+        </form>
+    </div>
+
     <div class="container">
       <div class="w3-left">
         <p class="w3-text-teal">Record Number: 1AAC342</p>
@@ -30,7 +47,6 @@
         <p class="w3-small"><u>Symptoms:</u></p>
         <p class="lead w3-small">{% lorem 1 b random %}</p>
       </div>
-      <hr>
 
       <div class="row">
         <div class="col-md-4 order-md-2 mb-4">

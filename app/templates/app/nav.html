@@ -7,6 +7,7 @@
   <a class="w3-center w3-button w3-small w3-round w3-text-teal" href="{% url 'chart' %}">Charts</a>
   {% if Category == 'Doctor' %}
     <a class="w3-center w3-button w3-small w3-round w3-text-teal" href="{% url 'table' %}">Tables</a>
+    <a class="w3-center w3-button w3-small w3-round w3-text-teal" href="{% url 'make_record' %}">Create Record</a>
   {% endif %}
   <div class="w3-container w3-right">
     <a class="w3-center w3-button w3-tiny w3-border w3-teal w3-round" href="{% url 'logout' %}">Sign Out</a>

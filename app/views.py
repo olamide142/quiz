@@ -94,6 +94,9 @@ def profileView(request):
                 next_of_kin_no=next_of_kin_no, genotype=genotype, blood_group=blood_group,
                 weight=weight, status=status
                 )
+                # Get Patient history and store seperately
+            history = str(loggedUser.history).split("***")
+
 
             # if User is a Doctor
         elif category == 'Doctor':
@@ -107,6 +110,7 @@ def profileView(request):
                 marital_status=marital_status, next_of_kin=next_of_kin, next_of_kin_addr=next_of_kin_addr,
                 next_of_kin_no=next_of_kin_no, specialization=specialization, years_of_experience=years_of_experience
                 )
+            history = []
 
         # if user chooses to change his email address
         email = request.POST.get('email')
@@ -115,7 +119,7 @@ def profileView(request):
         user.save()
 
         # store a the loggedUser object in a dict 
-        context = {'loggedUser':loggedUser, 'Category':category}
+        context = {'loggedUser':loggedUser, 'Category':category, 'history':history}
 
         return redirect('profile')
 
@@ -125,7 +129,8 @@ def profileView(request):
         context = {}
         if category == 'Patient':
             loggedUser = Patient.objects.get(owner=owner)
-            context = {'loggedUser':loggedUser, 'Category':category}
+            history = str(loggedUser.history).split("***")
+            context = {'loggedUser':loggedUser, 'Category':category, 'history':history}
         elif category == 'Doctor':
             loggedUser = Doctor.objects.get(owner=owner)
             context = {'loggedUser':loggedUser, 'Category':category}
@@ -150,6 +155,30 @@ def dashboardView(request):
 
 def uploadView(request):
     pass
+
+
+
+def make_recordView(request):
+    if (request.method == 'POST') and (request.session['category'] == 'Doctor'):
+        if request.POST.act == 'search_patient':
+            id = request.POST.get('patient_id')
+            patient = Patient.objects.get(id=id)
+            if patient is not None:
+                context = {'patient':patient}
+                messages.add_message(request, messages.INFO, 'Add Record for Patient: '+str(patient))
+                return (request, 'app/make_record.html', context)
+            else:
+                messages.add_message(request, messages.INFO, 'No record found')
+                return (request, 'app/make_record.html', context)
+
+        elif request.POST.act == 'upload_record':
+            pass
+    else:
+        return redirect('dashboard')
+
+
+    return render(request, 'app/make_record.html')
+
 
 
 def recordsView(request):
@@ -185,7 +214,6 @@ def initial_dataView(request):
         textDict = dict()
         for i in textArr:
             textDict[i] = 0
-        return HttpResponse(str(type(textDict))
 
         
         for t in textArr:
@@ -193,7 +221,7 @@ def initial_dataView(request):
 
         for dic in textDict:
             if (textDict[dic] % 2 != 0) or (textDict[dic] == 1):
-                _li+""+str(dic)+"[?]"
+                _li = _li+""+str(dic)+"***"
         
         patient = Patient.objects.get(owner=request.user)
         patient.history = _li
