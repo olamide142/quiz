@@ -31,55 +31,23 @@
                 
                 <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw  w3-xxlarge w3-text-teal"></i>Recent Records</h2>
                 
-                <a href="#" style="text-decoration: none;">
-                    <div class="container w3-padding w3-round w3-border">
-                        <p class="w3-tiny w3-text-teal">Record No: 12321</p>
-                        <p class="w3-tiny w3-text-teal">19-12-2019 | 12:30 AM</p>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio laudantium suscipit saepe laboriosam similique nisi non, quis alias praesentium, distinctio rem, impedit necessitatibus enim fugiat numquam asperiores recusandae totam illo.</p>
-                        
-                        
-                        <span class="badge w3-teal w3-small w3-text-white">maleria</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Fever</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Cough</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Corna</span>
-                        <p class="w3-tiny w3-right">Status: Good to go</p>
-                    </div>
-                </a>
-                <br>
-                
-                <a href="#" style="text-decoration: none;">
-                    <div class="container w3-padding w3-round w3-border">
-                        <p class="w3-tiny w3-text-teal">Record No: 12321</p>
-                        <p class="w3-tiny w3-text-teal">19-12-2019 | 12:30 AM</p>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio laudantium suscipit saepe laboriosam similique nisi non, quis alias praesentium, distinctio rem, impedit necessitatibus enim fugiat numquam asperiores recusandae totam illo.</p>
-                        
-                        
-                        <span class="badge w3-teal w3-small w3-text-white">maleria</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Fever</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Cough</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Corna</span>
-                        <p class="w3-tiny w3-right">Status: Good to go</p>
-                    </div>
-                </a>
-                <br>
-                
-                <a href="#" style="text-decoration: none;">
-                    <div class="container w3-padding w3-round w3-border">
-                        <p class="w3-tiny w3-text-teal">Record No: 12321</p>
-                        <p class="w3-tiny w3-text-teal">19-12-2019 | 12:30 AM</p>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio laudantium suscipit saepe laboriosam similique nisi non, quis alias praesentium, distinctio rem, impedit necessitatibus enim fugiat numquam asperiores recusandae totam illo.</p>
-                        
-                        
-                        <span class="badge w3-teal w3-small w3-text-white">maleria</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Fever</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Cough</span>
-                        <span class="badge w3-teal w3-small w3-text-white">Corna</span>
-                        <p class="w3-tiny w3-right">Status: Good to go</p>
-                    </div>
-                </a>
-                <br>
-                
-                <button class=" w3-center w3-button w3-round w3-teal">More</button>
+                {% for record in Records %}
+                    <a href=" {% url 'records' record.record_id  %}" style="text-decoration: none;">
+                        <div class="container w3-padding w3-round w3-border">
+                            <p class="w3-tiny w3-text-teal">Record No: {{record.record_id}}</p>
+                            <p class="w3-tiny w3-text-teal">{{record.date_created}}</p>
+                            <p>{{record.description|truncatechars:400}}</p>
+                            
+                            {% for h in history %}
+                                <span class="badge w3-teal w3-small w3-text-white">{{h}}</span>
+                            {% endfor %}
+                            <p class="w3-tiny w3-right">Status: {{record.status}}</p>
+                        </div>
+                    </a>
+                    <br>
+                {% endfor %}
+
+                <a href="{% url 'my_records' %}" class=" w3-center w3-button w3-round w3-teal">More</a>
             </div>
     
     
@@ -108,6 +76,7 @@
                     </form>
                 <div class="w3-container w3-padding">
                     <p class="w3-padding">Name: {{loggedUser}}</p>
+                    <p class="w3-padding">ID: {{loggedUser.id}}</p>
                     <p class="w3-padding">Health Status: {{loggedUser.status}}</p>
                     <p class="w3-padding">Date of Birth: {{loggedUser.dob}}</p>
                     <p class="w3-padding">Number: {{loggedUser.phone_number}}</p>

@@ -12,7 +12,7 @@
 
     <link href="{% static 'app/css/w3.css'%}" rel="stylesheet" id="bootstrap-css">
 </head>
-<body>
+<body class="w3-small">
    
     
     {% include 'app/nav.html' %}
@@ -20,92 +20,111 @@
             <a href="{% url 'dashboard' %}" class="w3-button w3-left"> Back</a>
             <h4 class="w3-center">Create Record</h4>
         </div>
-    <div class="container">
-        <form method="POST" action="{% url 'make_record' %}" >
+        
+    {% if patient is None %}
+    
+        <div class="container">
+            <form method="POST" action="{% url 'make_record' %}" >
+                {% csrf_token %}
+                <p>Search for patient by Patient ID</p>
+                <div class="col-md-5 mb-3">
+                    <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">ID</span>
+                            </div>
+                            <input type="text" class="form-control" name="patient_id" placeholder="Patient Name" required>
+                            <input type="hidden" name="act" value="search_patient">
+                    </div>
+                </div>
+                <button class="w3-button w3-teal w3-round " type="submit">Search</button>
+            </form>
+        </div><hr>
+
+    {% else %}
+        
+        <form method="POST" action="{% url 'make_record' %}"  class="container">
+            <p class="w3-text-teal" >Patient: {{patient}}</p>
+            <input type="hidden" name="id" value="{{patient.owner}}">
             {% csrf_token %}
-            <p>Search for patient by Patient ID</p>
-            <div class="col-md-5 mb-3">
-                <div class="input-group">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">ID</span>
+            <input type="hidden" name="act" value="upload_record" >
+            <div class="container row">
+                <div class="col-md-6 mb-3">
+                <label for="Description">Description</label><br>
+                <textarea name="Description" id="" cols="50" rows="10" placeholder="Description of Diagnosis"></textarea>
+                </div>
+
+                <div class="col-md-4 order-md-2 mb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Patient History</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+                    {% for h in history %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                        <h6 class="my-0">{{h}}</h6>
                         </div>
-                        <input type="text" class="form-control" name="patient_id" placeholder="Patient Name" value="{{patient}}" required>
-                        <input type="hidden" name="act" value="search_patient">
+                    </li>
+                    {% endfor %}
+                    </ul>
+        
                 </div>
             </div>
-            <button class="w3-button w3-teal w3-round " type="submit">Search</button>
+
+            <div class="container">
+                <div class="col-md-6 mb-3">
+                <label for="Symptoms">Symptoms</label><br>
+                <textarea name="Symptoms" id="" cols="50" rows="5" placeholder="Symptoms of Case"></textarea>
+                </div>
+            </div>
+
+            <div class="container">
+                <p class="w3-small"><u>Status:</u></p>
+                <div class="d-block my-3">
+                <div class="custom-control custom-radio">
+                    <input id="Resolved" value="Resolved" name="status" type="radio" class="custom-control-input">
+                    <label class="custom-control-label" for="Resolved">Resolved</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="Recovering" value="Recovering" name="status" type="radio" class="custom-control-input">
+                    <label class="custom-control-label" for="Recovering">Recovering</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="Examination" value="Examination" name="status" type="radio" class="custom-control-input">
+                    <label class="custom-control-label" for="Examination">Examination</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="Critical"  value="Critical" name="status" type="radio" class="custom-control-input">
+                    <label class="custom-control-label" for="Critical">Critical</label>
+                </div>
+                </div>
+                <hr>
+
+                <div class="container">
+                    <div class="col-md-6 mb-3">
+                    <label for="Doctors_report">Doctor's Report</label><br>
+                    <textarea name="Doctors_report" id="" cols="50" rows="5" placeholder="General Report on diagnosis"></textarea>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <button type="submit" class="w3-center w3-button w3-round w3-teal">Create</button>
         </form>
-    </div>
+    {% endif %}
 
-    <div class="container">
-      <div class="w3-left">
-        <p class="w3-text-teal">Record Number: 1AAC342</p>
-        <p class="w3-text-teal w3-tiny">19-12-2019 | 13:12</p>
-        <p class="w3-text-teal w3-right w3-small">Doctor: Baby Boy Buhari</p>
-        <p class="w3-small"><u>Description:</u></p>
-        <p class="lead w3-small">{% lorem 1 b random %}</p>
-        <p class="w3-small"><u>Symptoms:</u></p>
-        <p class="lead w3-small">{% lorem 1 b random %}</p>
-      </div>
 
-      <div class="row">
-        <div class="col-md-4 order-md-2 mb-4">
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">History</span>
-          </h4>
-          <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Maleria</h6>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Cough</h6>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-              <div>
-                <h6 class="my-0">Fever</h6>
-              </div>
-            </li>
-          </ul>
 
-        </div>
-
-        <div class="col-md-8 order-md-1">
-            <p class="w3-small"><u>Status:</u></p>
-            <div class="d-block my-3">
-              <div class="custom-control custom-radio">
-                <input id="Resolved" name="paymentMethod" type="radio" class="custom-control-input" checked disabled>
-                <label class="custom-control-label" for="Resolved">Resolved</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input id="Recovering" name="paymentMethod" type="radio" class="custom-control-input" disabled>
-                <label class="custom-control-label" for="Recovering">Recovering</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input id="Examination" name="paymentMethod" type="radio" class="custom-control-input" disabled>
-                <label class="custom-control-label" for="Examination">Examination</label>
-              </div>
-              <div class="custom-control custom-radio">
-                <input id="Critical" name="paymentMethod" type="radio" class="custom-control-input" disabled>
-                <label class="custom-control-label" for="Critical">Critical</label>
-              </div>
-            </div>
-            <hr>
-            <div class="">
-                <p class="w3-small"><u>Doctor's Report:</u></p>
-                <p class="lead w3-small">{% lorem 1 b random %}</p>
-            </div>
-        </div>
-    </div>
+        
+      
     <hr>
-            <div class="container w3-row">
-                <p class="lead w3-small">Print Report PDF</p>
-                <button class="w3-text-white w3-button w3-grey w3-round w3-tiny">Download</button>
-            </div>
+          
 
       {% include 'app/footer.html' %}
+      <script>
+        function addText(ee) {
+          var targ = ee;
+          document.getElementById("history").value += targ + "***";
+        }
+      </script>
 </body>
 </html>

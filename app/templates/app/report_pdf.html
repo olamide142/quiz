@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Report A2353S2</title>
+        <title>Report {{record.record_id}}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link href="{% static 'app/css/w3.css'%}" rel="stylesheet" id="bootstrap-css">
     </head>
@@ -16,30 +16,30 @@
 
         <br>
         <div class="">
-            <p class="w3-text-teal">Record Number: 1AAC342</p>
-            <p class="">Patient Name: Travis Scott</p>
-            <p class="">Age: 24</p>
-            <p class="w3-text-teal w3-small">19-12-2019 | 13:12</p>
-            <p class="w3-text-teal w3-right w3-small">Doctor: Baby Boy Buhari</p>
+            <p class="w3-text-teal">Record Number: {{record.record_id}}</p>
+            <p class="">Patient Name: {{patient}}</p>
+            <p class="">Age: ####</p>
+            <p class="w3-text-teal w3-small">{{record.date_created}}</p>
+            <p class="w3-text-teal w3-right w3-small">Doctor: {{record.doctor}}</p>
             <p class=""><u>Description:</u></p>
-            <p class="lead">{% lorem 1 b random %}</p>
+            <p class="lead">{{record.description}}</p>
             <p class=""><u>Symptoms:</u></p>
-            <p class="lead ">{% lorem 1 b random %}</p>
+            <p class="lead ">{{record.symptoms}}</p>
         </div>
 
         <br>
         <div>
             <p class="lead w3-padding">Tags:</p>
-            <span class="badge badge-secondary w3-large w3-padding">Maleria</span>
-            <span class="badge badge-secondary w3-large w3-padding">Cough</span>
-            <span class="badge badge-secondary w3-large w3-padding">Fever</span>
+            {% for h in history %}
+                <span class="badge badge-secondary w3-large w3-padding">{{h}}</span>
+            {% endfor %}
         </div>
         
-        <p class="lead w3-padding">Status: Recovering</p> <br>
+        <p class="lead w3-padding">Status: {{record.status}}</p> <br>
 
         <div class="">
             <p class=""><u>Doctor's Report:</u></p>
-            <p class="lead">{% lorem 1 b random %}</p>
+            <p class="lead">{{record.doctors_report}}</p>
         </div>
         <br>
         <div class="w3-bottom">
