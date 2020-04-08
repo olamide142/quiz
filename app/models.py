@@ -66,6 +66,7 @@ class Patient(models.Model):
     status = models.CharField(max_length=50, choices=STATUS, null=True)
     gender = models.CharField(max_length=6, null=True, blank=True)
     phone_number = models.BigIntegerField(null=True, default=0)
+    history = models.TextField(default="", blank=True)
     weight = models.IntegerField(null=True, default=0)
     blood_group =  models.CharField(max_length=3, choices=BLOOD_GROUP, null=True, blank=True)
     genotype =  models.CharField(max_length=5, null=True, blank=True)

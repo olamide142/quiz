@@ -55,7 +55,7 @@ def loginView(request):
 def logoutView(request):
     # Log user out
     logout(request)
-    return redirect('home')
+    return redirect('dashboard')
 
 
 
@@ -84,6 +84,7 @@ def profileView(request):
             genotype =  request.POST.get('genotype')
             blood_group = request.POST.get('bloodGroup')
             weight = request.POST.get('weight')
+            status = request.POST.get('status')
 
             # Update Patient's profile
             loggedUser = Patient.objects.filter(owner=request.user).update(
@@ -91,7 +92,7 @@ def profileView(request):
                 gender=gender, home_address=home_address, dob=dob,
                 marital_status=marital_status, next_of_kin=next_of_kin, next_of_kin_addr=next_of_kin_addr,
                 next_of_kin_no=next_of_kin_no, genotype=genotype, blood_group=blood_group,
-                weight=weight 
+                weight=weight, status=status
                 )
 
             # if User is a Doctor
@@ -175,3 +176,31 @@ def report_pdfView(request):
 
     
 
+def initial_dataView(request):
+    if request.method == 'POST':
+        _li = ""
+        # text = 
+
+        textArr = request.POST.get('history').split('***')
+        textDict = dict()
+        for i in textArr:
+            textDict[i] = 0
+        return HttpResponse(str(type(textDict))
+
+        
+        for t in textArr:
+            textDict[t] += 1
+
+        for dic in textDict:
+            if (textDict[dic] % 2 != 0) or (textDict[dic] == 1):
+                _li+""+str(dic)+"[?]"
+        
+        patient = Patient.objects.get(owner=request.user)
+        patient.history = _li
+        patient.save()
+        return redirect('profile')
+
+
+            
+                
+          

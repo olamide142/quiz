@@ -11,5 +11,6 @@ urlpatterns = [
     path('profile/', views.profileView, name="profile"),
     path('upload/', views.uploadView, name="upload"),
     path('logout/', views.logoutView, name="logout"),
+    path('initial_data/', views.initial_dataView, name="initial_data"),
 
 ]
