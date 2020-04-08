@@ -20,16 +20,26 @@
             <a href="{% url 'dashboard' %}" class="w3-button w3-left"> Back</a>
             <h4 class="w3-center">Charts</h4>
         </div>
+        <p>Statistical analysis of cases by Patient Age</p>
 
-        <div class="col-md-3 mb-3">
-            <label for="maritalStatus">Condition</label>
-            <select class="custom-select d-block w-100" name="maritalStatus" required>
-              <option value="">Choose...</option>
-              <option value="Single">Single</option>
-              <option value="Married">Married</option>
-              <option value="Divorced">Divorced</option>
+        <form method="POST" action="{% url 'chart' %}" class="col-md-3 mb-3">
+            {% csrf_token %}
+            <label for="data">Condition</label>
+            <select class="custom-select d-block w-100" name="data" required>
+              <option value="">
+                    Choose...
+                </option>
+              <option value="ADHD">ADHD</option>
+              <option value="Arthritis">Arthritis</option>
+              <option value="Asthma">Asthma</option>
+              <option value="Birth Defects">Birth Defects</option>
+              <option value="Cancer">Cancer</option>
+              <option value="Autism">Autism</option>
+              <option value="Lassa Fever">Lassa Fever</option>
+              <option value="Coronavirus Disease (COVID-19)">Coronavirus Disease (COVID-19)</option>
             </select>
-          </div>
+            <button class="w3-button w3-margin w3-teal w3-round w3-padding" type="submit">Search</button>
+        </form>
 
         <div id="chartContainer" style="height: 370px; width: 100%;"></div>
 
@@ -44,7 +54,15 @@
 
 <script type="text/javascript">
     window.onload = function () {
-
+        var one = parseInt("{{one}}");
+        var two = parseInt("{{two}}");
+        var three = parseInt("{{three}}");
+        var four = parseInt("{{four}}");
+        var five = parseInt("{{five}}");
+        var six = parseInt("{{six}}");
+        var seven = parseInt("{{seven}}");
+        var eight = parseInt("{{eight}}");
+        var nine = parseInt("{{nine}}");
     var chart = new CanvasJS.Chart("chartContainer", {
         theme: "light1", // "light2", "dark1", "dark2"
         animationEnabled: false, // change to true		
@@ -55,16 +73,16 @@
         {
             // Change type to "bar", "area", "spline", "pie",etc.
             type: "column",
-            dataPoints: [
-                { label: "apple",  y: 1  },
-                { label: "apple",  y: 1  },
-                { label: "orange", y: 5  },
-                { label: "orange", y: 5  },
-                { label: "orange", y: 5  },
-                { label: "banana", y: 2  },
-                { label: "banana", y: 2  },
-                { label: "mango",  y: 3  },
-                { label: "grape",  y: 8  }
+            dataPoints: [ 
+                { label: "10-19",  y: one  },
+                { label: "20-29",  y: two  },
+                { label: "30-39",  y: three  },
+                { label: "40-49",  y: four  },
+                { label: "50-59",  y: five  },
+                { label: "60-69",  y: six  },
+                { label: "70-79",  y: seven  },
+                { label: "80-89",  y: eight  },
+                { label: "90-100", y: nine  },
             ]
         }
         ]
