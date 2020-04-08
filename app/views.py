@@ -137,8 +137,9 @@ def profileView(request):
                 weight=weight, status=status
                 )
                 # Get Patient history and store seperately
-            history = str(loggedUser.history).split("***")
-
+        
+            history = loggedUser.history.split("***")   
+            loggedUser.id = loggedUser.patient_id
 
             # if User is a Doctor
         elif category == 'Doctor':
@@ -152,6 +153,8 @@ def profileView(request):
                 marital_status=marital_status, next_of_kin=next_of_kin, next_of_kin_addr=next_of_kin_addr,
                 next_of_kin_no=next_of_kin_no, specialization=specialization, years_of_experience=years_of_experience
                 )
+            loggedUser.id = loggedUser.doctor_id
+
             history = []
 
         # if user chooses to change his email address
@@ -173,8 +176,11 @@ def profileView(request):
             loggedUser = Patient.objects.get(owner=owner)
             history = str(loggedUser.history).split("***")
             context = {'loggedUser':loggedUser, 'Category':category, 'history':history}
+            loggedUser.id = loggedUser.patient_id
+
         elif category == 'Doctor':
             loggedUser = Doctor.objects.get(owner=owner)
+            loggedUser.id = loggedUser.doctor_id
             context = {'loggedUser':loggedUser, 'Category':category}
         
         return render(request, 'app/profile.html', context)
@@ -188,12 +194,13 @@ def dashboardView(request):
     if category == 'Patient':
         loggedUser = Patient.objects.get(owner=request.user)
         records = Records.objects.filter(owner=request.user.username)
-        history = loggedUser.history.split("***") 
+        history = loggedUser.history.split("***")
+        loggedUser.id = loggedUser.patient_id
     elif category == 'Doctor':
         loggedUser = Doctor.objects.get(owner=request.user)
         records = {}
         history = {}
-    
+        loggedUser.id = loggedUser.doctor_id
     context = {'loggedUser':loggedUser, 'Category':category, 'Records': records, 'history':history}
     return render(request, 'app/index.html', context)
     
@@ -213,7 +220,7 @@ def make_recordView(request):
         if act == 'search_patient':
             id = request.POST.get('patient_id')
             try:
-                patient = Patient.objects.get(id=id)
+                patient = Patient.objects.get(patient_id=id)
             except:
                 messages.add_message(request, messages.INFO, 'No record found')
                 return render(request, 'app/make_record.html')
