@@ -293,8 +293,12 @@ def chartView(request):
     dictAge = {'one':0, 'two':0, 'three':0, 'four':0, 'five':0, 'six':0, 'seven':0, 'eight':0, 'nine':0}
     patients = Patient.objects.all()
     for patient in patients:
-        age = str(patient.dob).split('/')
-        age = calculateAge(date(int(age[0]), int(age[1]), int(age[2])))
+        if '/' in str(patient.dob):
+            age = str(patient.dob).split('/')
+        else:
+            age = str(patient.dob).split('-')
+
+        age = calculateAge(date(int(age[0]*1), int(age[1]*1), int(age[2]*1)))
         
         history = str(patient.history)
 
