@@ -55,6 +55,44 @@ def loginView(request):
     return render(request, 'app/login.html')
     
 
+
+def signupView(request):
+    if request.method == "POST":
+        category = request.POST.get('category')
+        email = request.POST.get('email')
+        surname = request.POST.get('surname')
+        other_names = request.POST.get('other_names')
+        gender = request.POST.get('gender')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 == password2:
+            if category == 'Doctor':
+                user = User.objects.create_user(username=email, password=password1)
+                
+                specialization = request.POST.get('specialization')
+                doctor = Doctor.objects.create(owner=user, surname=surname, other_names=other_names, specialization=specialization, gender=gender)
+                doctor.save()
+                messages.add_message(request, messages.INFO, 'Account created successfully')
+                return render(request, 'app/signup.html')
+                
+            elif category == 'Patient':
+                user = User.objects.create_user(username=email, password=password1)
+                patient = Patient.objects.create(owner=user, surname=surname, other_names=other_names, gender=gender)
+                patient.save()
+                messages.add_message(request, messages.INFO, 'Account created successfully')
+                return render(request, 'app/signup.html')
+        else:
+            messages.add_message(request, messages.INFO, 'Password are not the same')
+            return render(request, 'app/signup.html')
+            
+
+    return render(request, "app/signup.html")
+
+
+
+
+
 def logoutView(request):
     # Log user out
     logout(request)
