@@ -1,5 +1,6 @@
 
 function fileData(){
+    alert(1);
     // Get file name and extension 
     var extension = document.getElementById('file').value;
     console.log(extension);

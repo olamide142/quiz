@@ -59,21 +59,24 @@
         
                 <div class="w3-white w3-text-grey w3-card-4">
                 <div class="w3-display-container">
-                    <img src="{% static 'app/images/male.png' %}" style="width:100%" alt="Avatar">
+                    <img src="{{loggedUser.image|safe}}" style="max-width:100%; max-height: 499px" alt="Avatar">
                 </div>
-                <form method="POST" class=" w3-padding" action="{% url 'upload' %}" enctype='multipart/form-data'>
+                <form method="POST" action="{% url 'upload' %}" enctype='multipart/form-data'>
                     {% csrf_token %}
                         <div class="input-group mb-3">
                             <div class="custom-file">
+                                <!-- <input type="hidden" name="file_size" id="file_size"> -->
+                                <!-- <input type="hidden" name="file_extension" id="file_extension"> -->
+                                <!-- <input type="hidden" name="title" id="title"> -->
                             <input type="file" class="custom-file-input" name="file" id="file" onchange="fileData()">
                             <label class="custom-file-label" for="inputGroupFile02" aria-describedby="upload-file" id="file_label">Choose file</label>
                             </div>
                             <div class="input-group-append">
-                            <button type="buttton" class="w3-button w3-right w3-round w3-border" id="upload-file" style="cursor: pointer;" >Upload</button>
+                            <button type="buttton" class="btn btn-outline-secondary" id="upload-file" style="cursor: pointer;" onclick="upload()">Upload</button>
                             </div>
                         </div>
-                
                     </form>
+
                 <div class="w3-container w3-padding">
                     <p class="w3-padding">Name: {{loggedUser}}</p>
                     <p class="w3-padding">ID: {{loggedUser.id}}</p>
@@ -99,6 +102,39 @@
     <!-- Footer  -->
     {% include 'app/footer.html' %}
     
+    <script>
+                
+        function fileData(){
+            // Get file name and extension 
+            var extension = document.getElementById('file').value;
+            console.log(extension);
+            var extension = extension.split('.');
+            EXTENSION = extension[extension.length-1];
+            document.getElementById('file_extension').value = EXTENSION;
+
+
+            extension.pop();
+            document.getElementById('title').value = extension.join(".").replace("C:\\fakepath\\",'');
+            document.getElementById('file_label').textContent = extension.join(".").replace("C:\\fakepath\\",'');
+            FILENAME = extension.join(".").replace("C:\\fakepath\\",'');
+
+            // Get file size 
+            const fi = document.getElementById('file');
+            if (fi.files.length > 0){
+                for (var i = 0; i < fi.files.length; i++){
+                    var fsize = fi.files.item(i).size;
+                    FILE = fi.files;
+                    console.log(fsize);
+                }
+            }
+            
+            document.getElementById('file_size').value = fsize;
+            FSIZE = fsize;
+
+            
+        }
+
+    </script>
 
 </body>
 </html>

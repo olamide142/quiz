@@ -6,6 +6,7 @@ from django.contrib import messages
 import random 
 
 from . models import * 
+from .forms import UploadFileForm
 
 # Create your views here.
 
@@ -188,6 +189,7 @@ def profileView(request):
 
 @login_required(login_url="login/")
 def dashboardView(request):
+
     category = request.session['category']
 
     # Get users info 
@@ -195,19 +197,27 @@ def dashboardView(request):
         loggedUser = Patient.objects.get(owner=request.user)
         records = Records.objects.filter(owner=request.user.username)
         history = loggedUser.history.split("***")
+
+        # This ridiculous section handles image rending to the template 
+        a = (loggedUser.image).replace("___"+str(request.user.username), "")
+        loggedUser.image = "/static/app/profilepic/"+str(a)
         loggedUser.id = loggedUser.patient_id
     elif category == 'Doctor':
         loggedUser = Doctor.objects.get(owner=request.user)
         records = {}
         history = {}
         loggedUser.id = loggedUser.doctor_id
+
+        # This ridiculous section handles image rending to the template 
+        a = (loggedUser.image).replace("___"+str(request.user.username), "")
+        loggedUser.image = "/static/app/profilepic/"+str(a)
+        loggedUser.id = loggedUser.patient_id
+
     context = {'loggedUser':loggedUser, 'Category':category, 'Records': records, 'history':history}
+
+
     return render(request, 'app/index.html', context)
     
-
-def uploadView(request):
-    pass
-
 
 
 def make_recordView(request):
@@ -270,8 +280,48 @@ def recordsView(request, id):
     return render(request, 'app/records.html', context)
 
 
+
+
 def myRecordsView(request):
-    return render(request, 'app/my_records.html')
+    pass
+
+
+def uploadView(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'])
+
+        category = request.session['category']
+
+        file_owner = str(request.user)
+
+        user = User.objects.get(username=file_owner)
+        upload_file = request.FILES['file']
+
+        if category == 'Patient':
+            patient = Patient.objects.get(owner=user)
+            patient.image = str(upload_file.name)+"___"+str(file_owner)
+            patient.save()
+
+        elif category == 'Doctor':
+            doctor = Doctor.objects.get(owner=user)
+            doctor.image = str(upload_file.name)+"___"+str(file_owner)
+            doctor.save()
+
+
+        return redirect('dashboard')   
+    else:
+        return JsonResponse({'file_id': "Something went wrong"})
+
+
+def handle_uploaded_file(f):
+    with open('static/app/profilepic/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+
+
 
 
 def tableView(request):
