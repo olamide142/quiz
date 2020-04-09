@@ -29,9 +29,13 @@
   <div class="w3-display-topright">
     <a href="{% url 'signup' %}" class="w3-button w3-teal w3-round w3-margin">Sign Up</a>
   </div>
+  <div class="w3-display-topleft">
+    <a href="{% url 'login' %}" class="w3-button w3-teal w3-round w3-margin">Back</a>
+  </div>
+
     {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-primary w3-top" role="alert">
+            <div class="alert alert-primary w3-bottom" role="alert">
                 {{message}}
             </div>
         {% endfor %}

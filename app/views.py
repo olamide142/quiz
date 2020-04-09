@@ -221,8 +221,16 @@ def dashboardView(request):
         history = loggedUser.history.split("***")
 
         # This ridiculous section handles image rending to the template 
-        a = (loggedUser.image).replace("___"+str(request.user.username), "")
-        loggedUser.image = "/static/app/profilepic/"+str(a)
+        if loggedUser.image == None:
+            if loggedUser.gender == 'male':
+                loggedUser.image = "/static/app/profilepic/male.png"
+            else:
+                loggedUser.image = "/static/app/profilepic/female.png"
+
+        else:
+            a = (loggedUser.image).replace("___"+str(request.user.username), "")
+            loggedUser.image = "/static/app/profilepic/"+str(a)
+
         loggedUser.id = loggedUser.patient_id
     elif category == 'Doctor':
         loggedUser = Doctor.objects.get(owner=request.user)
@@ -231,9 +239,17 @@ def dashboardView(request):
         loggedUser.id = loggedUser.doctor_id
 
         # This ridiculous section handles image rending to the template 
-        a = (loggedUser.image).replace("___"+str(request.user.username), "")
-        loggedUser.image = "/static/app/profilepic/"+str(a)
-        loggedUser.id = loggedUser.patient_id
+        if loggedUser.image == None:
+            if loggedUser.gender == 'male':
+                loggedUser.image = "/static/app/profilepic/male.png"
+            else:
+                loggedUser.image = "/static/app/profilepic/female.png"
+
+        else:
+            a = (loggedUser.image).replace("___"+str(request.user.username), "")
+            loggedUser.image = "/static/app/profilepic/"+str(a)
+        
+        loggedUser.id = loggedUser.doctor_id
 
     context = {'loggedUser':loggedUser, 'Category':category, 'Records': records, 'history':history}
 
