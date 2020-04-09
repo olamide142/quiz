@@ -80,7 +80,11 @@
                 <div class="w3-container w3-padding">
                     <p class="w3-padding">Name: {{loggedUser}}</p>
                     <p class="w3-padding">ID: {{loggedUser.id}}</p>
-                    <p class="w3-padding">Health Status: {{loggedUser.status}}</p>
+
+                    {% if Category != 'Doctor' %}
+                        <p class="w3-padding">Health Status: {{loggedUser.status}}</p>
+                    {% endif %}
+
                     <p class="w3-padding">Date of Birth: {{loggedUser.dob}}</p>
                     <p class="w3-padding">Number: {{loggedUser.phone_number}}</p>
                     <hr>

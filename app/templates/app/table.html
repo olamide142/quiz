@@ -32,14 +32,15 @@
                       <button class="btn btn-outline-secondary dropdown-toggle" type="text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
                       <div class="dropdown-menu">
                         <ul class="w3-ul">
-                          <li><button type="submit" class="btn btn-otline-secondary">ID</button></li>
-                          <li><button type="submit" class="btn btn-otline-secondary">Patient Name</button></li>
-                          <li><button type="submit" class="btn btn-otline-secondary">Description</button></li>
-                          <li><button type="submit" class="btn btn-otline-secondary">Status</button></li>
-                          <li><button type="submit" class="btn btn-otline-secondary">Date</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary" onclick="document.getElementById('query').value ='record_id' ">ID</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary" onclick="document.getElementById('query').value ='patient_name' ">Patient Name</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary" onclick="document.getElementById('query').value ='description' ">Description</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary" onclick="document.getElementById('query').value ='symptoms' ">Symptoms</button></li>
+                          <li><button type="submit" class="btn btn-otline-secondary" onclick="document.getElementById('query').value ='status' ">Status</button></li>
                         </ul>
+                        <input type="hidden" name="query" id="query">
                       </div>
-                      <input type="text" class="form-control" aria-label="" required>
+                      <input type="text" name="data" class="form-control" aria-label="" required>
                     </div>
                   </form>
                 </div>
@@ -50,52 +51,26 @@
               <td class="w3-center">ID</td>
               <td class="w3-center">Patient Name</td>
               <td class="w3-center">Description</td>
+              <td class="w3-center">Symptoms</td>
+              <td class="w3-center">Doctor</td>
               <td class="w3-center">Status</td>
               <td class="w3-center">Date</td>
               <td class="w3-center"></td>
             </tr>
 
             <tbody>
+              {% for record in records  %}
               <tr>
-                <td>1A3DS34</td>
-                <td>Papa Ajasco</td>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
-                <td>Recovering</td>
-                <td>19-12-2018</td>
-                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
+                <td>{{record.record_id}}</td>
+                <td>{{record.owner}}</td>
+                <td>{{record.description| truncatechars:40}}</td>
+                <td>{{record.symptoms| truncatechars:30}}</td>
+                <td>{{record.doctor}}</td>
+                <td>{{record.status}}</td>
+                <td>{{record.date_created}}</td>
+                <td><a href="{% url 'records' record.record_id  %}" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
               </tr>
-              <tr>
-                <td>1A3DS34</td>
-                <td>Papa Ajasco</td>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
-                <td>Recovering</td>
-                <td>19-12-2018</td>
-                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
-              </tr>
-              <tr>
-                <td>1A3DS34</td>
-                <td>Papa Ajasco</td>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
-                <td>Recovering</td>
-                <td>19-12-2018</td>
-                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
-              </tr>
-              <tr>
-                <td>1A3DS34</td>
-                <td>Papa Ajasco</td>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
-                <td>Recovering</td>
-                <td>19-12-2018</td>
-                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
-              </tr>
-              <tr>
-                <td>1A3DS34</td>
-                <td>Papa Ajasco</td>
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing ipisci quos laudantium pariatur aliquam!</td>
-                <td>Recovering</td>
-                <td>19-12-2018</td>
-                <td><a href="#" class="w3-button w3-teal w3-round w3-tiny">View</a></td>
-              </tr>
+              {% endfor %}
             </tbody>
 
           </table>

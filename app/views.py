@@ -318,8 +318,6 @@ def recordsView(request, id):
     return render(request, 'app/records.html', context)
 
 
-
-
 def myRecordsView(request):
     pass
 
@@ -361,16 +359,42 @@ def handle_uploaded_file(f):
 
 
 def tableView(request):
-    
+
     category = request.session['category']
+    
     if category != 'Doctor':
         redirect('dashboard')
-    if request == "POST":
-        return HttpResponse("Search Table")
-    return render(request, 'app/table.html')
 
+    context = {}
+    
+
+    if request.method == "POST":
+        query = request.POST.get('query')
+        data = request.POST.get('data')
+
+        if query == 'record_id':
+            records = Records.objects.filter(record_id__contains=data)
+        elif query == 'patient_name':
+            records = Records.objects.filter(owner__contains=data)
+        elif query == 'description':
+            records = Records.objects.filter(description__contains=data)
+        elif query == 'symptoms':
+            records = Records.objects.filter(symptoms__contains=data)
+        elif query == 'status':
+            records = Records.objects.filter(status__contains=data)
+        
+        context = {'records':records, 'Category':category}
+        return render(request, 'app/table.html', context)
+    else:
+        records = Records.objects.all()
+        context = {'records':records, 'Category':category}
+        return render(request, 'app/table.html', context)
+
+    
 
 def chartView(request):
+    category = request.session['category']
+
     if request.method == 'POST':
         data = request.POST.get('data')
     else:
@@ -378,7 +402,7 @@ def chartView(request):
 
     totalPatient = len(Patient.objects.all())
 
-    dictAge = {'one':0, 'two':0, 'three':0, 'four':0, 'five':0, 'six':0, 'seven':0, 'eight':0, 'nine':0, 'totalPatient': totalPatient}
+    dictAge = {'one':0, 'two':0, 'three':0, 'four':0, 'five':0, 'six':0, 'seven':0, 'eight':0, 'nine':0, 'totalPatient': totalPatient, 'Category':category}
     patients = Patient.objects.all()
     for patient in patients:
         if '/' in str(patient.dob):
@@ -414,8 +438,6 @@ def chartView(request):
             elif (age >= 90) and (age <= 100):
                 dictAge['nine'] += 1
     
-    context = {'dictAge':dictAge}
-
     return render(request, 'app/chart.html', dictAge)
 
 
