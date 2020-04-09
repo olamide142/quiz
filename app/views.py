@@ -319,8 +319,14 @@ def recordsView(request, id):
 
 
 def myRecordsView(request):
-    pass
+    category = request.session['category']
+    
+    records = Records.objects.filter(owner=request.user.username)
+    patient = Patient.objects.get(owner=request.user)
+    history = patient.history.split("***") 
+    context = {'records':records, 'Category':category, 'history':history}
 
+    return render(request, 'app/my_records.html', context)
 
 def uploadView(request):
     if request.method == 'POST':
