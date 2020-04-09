@@ -150,6 +150,8 @@ def profileView(request):
             # Get Patient history and store seperately
             history = loggedUser.history.split("***")   
             loggedUser.id = loggedUser.patient_id
+            messages.add_message(request, messages.INFO, 'Profile updated successfully')
+
 
             # if User is a Doctor
         elif category == 'Doctor':
@@ -157,13 +159,24 @@ def profileView(request):
             years_of_experience = request.POST.get('years_of_experience')
 
             # Update Doctor's profile
-            loggedUser = Doctor.objects.filter(owner=request.user).update(
-                surname=surname, other_names=other_names, phone_number=phone_number,
-                gender=gender, home_address=home_address, dob=dob,
-                marital_status=marital_status, next_of_kin=next_of_kin, next_of_kin_addr=next_of_kin_addr,
-                next_of_kin_no=next_of_kin_no, specialization=specialization, years_of_experience=years_of_experience
-                )
+            loggedUser = Doctor.objects.get(owner=request.user)
+            loggedUser.surname=surname
+            loggedUser.other_names=other_names
+            loggedUser.phone_number=phone_number
+            loggedUser.gender=gender
+            loggedUser.home_address=home_address
+            loggedUser.dob=dob
+            loggedUser.marital_status=marital_status
+            loggedUser.next_of_kin=next_of_kin
+            loggedUser.next_of_kin_addr=next_of_kin_addr
+            loggedUser.next_of_kin_no=next_of_kin_no
+            loggedUser.specialization=specialization
+            loggedUser.years_of_experience=years_of_experience
+            loggedUser.save()
+
             loggedUser.id = loggedUser.doctor_id
+            messages.add_message(request, messages.INFO, 'Profile updated successfully')
+
 
             history = []
 
@@ -355,9 +368,13 @@ def chartView(request):
         else:
             age = str(patient.dob).split('-')
 
+
         age = calculateAge(date(int(age[0]*1), int(age[1]*1), int(age[2]*1)))
         
         history = str(patient.history)
+
+
+
 
         if data in history:
             if (age >= 10) and (age <= 19):
