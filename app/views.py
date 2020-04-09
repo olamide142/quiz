@@ -360,7 +360,9 @@ def chartView(request):
     else:
         data = 'HIV/AIDS'
 
-    dictAge = {'one':0, 'two':0, 'three':0, 'four':0, 'five':0, 'six':0, 'seven':0, 'eight':0, 'nine':0}
+    totalPatient = len(Patient.objects.all())
+
+    dictAge = {'one':0, 'two':0, 'three':0, 'four':0, 'five':0, 'six':0, 'seven':0, 'eight':0, 'nine':0, 'totalPatient': totalPatient}
     patients = Patient.objects.all()
     for patient in patients:
         if '/' in str(patient.dob):

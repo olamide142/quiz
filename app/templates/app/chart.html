@@ -20,7 +20,7 @@
             <a href="{% url 'dashboard' %}" class="w3-button w3-left"> Back</a>
             <h4 class="w3-center">Charts</h4>
         </div>
-        <p>Statistical analysis of cases by Patient Age</p>
+        <p>Statistical analysis of cases by all {{totalPatient}} Patient(s) Age</p>
 
         <form method="POST" action="{% url 'chart' %}" class="col-md-3 mb-3">
             {% csrf_token %}
@@ -29,6 +29,7 @@
               <option value="">
                     Choose...
                 </option>
+              <option value="Ebola (Ebola Virus Disease)">Ebola (Ebola Virus Disease)</option>
               <option value="ADHD">ADHD</option>
               <option value="Arthritis">Arthritis</option>
               <option value="Asthma">Asthma</option>
@@ -37,6 +38,31 @@
               <option value="Autism">Autism</option>
               <option value="Lassa Fever">Lassa Fever</option>
               <option value="Coronavirus Disease (COVID-19)">Coronavirus Disease (COVID-19)</option>
+              <option value="Tuberculosis (TB)">Tuberculosis (TB)</option>
+              <option value="Zika Virus">Zika Virus</option>
+              <option value="Typhoid">Typhoid</option>
+              <option value="Traumatic Brain Injury (TBI)">Traumatic Brain Injury (TBI)</option>
+              <option value="Stroke">Stroke</option>
+              <option value="Surgical Operation">Surgical Operation</option>
+              <option value="Sexually Transmitted Diseases">Sexually Transmitted Diseases</option>
+              <option value="Salmonella">Salmonella</option>
+              <option value="Parasites – Scabies">Parasites – Scabies</option>
+              <option value="Meningitis">Meningitis</option>
+              <option value="Kidney Disease (Chronic Kidney Disease)">Kidney Disease (Chronic Kidney Disease)</option>
+              <option value="HIV/AIDS">HIV/AIDS</option>
+              <option value="Hepatitis">Hepatitis</option>
+              <option value="Headache">Headache</option>
+              <option value="Heart Disease">Heart Disease</option>
+              <option value="Gonorrhea">Gonorrhea</option>
+              <option value="Genital Herpes (Herpes Simplex Virus)">Genital Herpes (Herpes Simplex Virus)</option>
+              <option value="Diarrhoea">Diarrhoea</option>
+              <option value="Flu (Influenza)">Flu (Influenza)</option>
+              <option value="Epilepsy">Epilepsy</option>
+              <option value="Cattarh">Cattarh</option>
+              <option value="Coughing">Coughing</option>
+              <option value="Chlamydia">Chlamydia</option>
+              <option value="Chronic Obstructive Pulmonary Disease (COPD)">Chronic Obstructive Pulmonary Disease (COPD)</option>
+              <option value="Diabetes">Diabetes</option>
             </select>
             <button class="w3-button w3-margin w3-teal w3-round w3-padding" type="submit">Search</button>
         </form>
