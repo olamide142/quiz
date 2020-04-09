@@ -130,15 +130,24 @@ def profileView(request):
             status = request.POST.get('status')
 
             # Update Patient's profile
-            loggedUser = Patient.objects.filter(owner=request.user).update(
-                surname=surname, other_names=other_names, phone_number=phone_number,
-                gender=gender, home_address=home_address, dob=dob,
-                marital_status=marital_status, next_of_kin=next_of_kin, next_of_kin_addr=next_of_kin_addr,
-                next_of_kin_no=next_of_kin_no, genotype=genotype, blood_group=blood_group,
-                weight=weight, status=status
-                )
-                # Get Patient history and store seperately
-        
+            loggedUser = Patient.objects.get(owner=request.user)
+            loggedUser.surname=surname
+            loggedUser.other_names=other_names
+            loggedUser.phone_number=phone_number
+            loggedUser.gender=gender
+            loggedUser.home_address=home_address
+            loggedUser.dob=dob
+            loggedUser.marital_status=marital_status
+            loggedUser.next_of_kin=next_of_kin
+            loggedUser.next_of_kin_addr=next_of_kin_addr
+            loggedUser.next_of_kin_no=next_of_kin_no
+            loggedUser.genotype=genotype
+            loggedUser.blood_group=blood_group
+            loggedUser.weight=weight
+            loggedUser.status=status
+            loggedUser.save()
+
+            # Get Patient history and store seperately
             history = loggedUser.history.split("***")   
             loggedUser.id = loggedUser.patient_id
 
@@ -319,8 +328,6 @@ def handle_uploaded_file(f):
     with open('static/app/profilepic/'+f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-
-
 
 
 
